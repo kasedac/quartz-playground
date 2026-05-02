@@ -47,15 +47,15 @@ export default ((userOpts?: Partial<ContentMetaOptions>) => {
 
       // 読了時間の追加
       if (opts.showReadingTime) {
-        const { minutes } = i18n(cfg.locale).components.contentMeta.readingTime({
+        const readingTimeMsg = i18n(cfg.locale).components.contentMeta.readingTime({
           minutes: Math.ceil(readingTime(text).minutes),
         })
-        segments.push(minutes)
+        segments.push(readingTimeMsg)
       }
 
       return (
         <p class={classNames(displayClass, "content-meta")}>
-          {segments.join(" / ")}
+          {segments.join(" , ")}
         </p>
       )
     } else {
