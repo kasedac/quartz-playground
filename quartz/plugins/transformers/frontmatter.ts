@@ -124,6 +124,17 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
             allSlugs.splice(0, allSlugs.length, ...uniqueSlugs)
 
             // fill in frontmatter
+            
+            // Override slug if slug or permalink is set in frontmatter
+            const slugValue = data.slug ?? data.permalink
+            if (slugValue != null && slugValue.toString() !== "") {
+              const newSlug = slugValue.toString() as FullSlug
+              const aliases = file.data.aliases ?? []
+              if (file.data.slug) aliases.push(file.data.slug)
+              file.data.aliases = aliases
+              file.data.slug = newSlug
+              allSlugs.push(newSlug)
+            }
             file.data.frontmatter = data as QuartzPluginData["frontmatter"]
           }
         },
