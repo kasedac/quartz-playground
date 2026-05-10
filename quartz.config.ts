@@ -18,7 +18,7 @@ const config: QuartzConfig = {
     locale: "ja-JP",
     baseUrl: "quartz-playground.pages.dev",
     ignorePatterns: ["private", "templates", ".obsidian"],
-    defaultDateType: "modified",
+    defaultDateType: "created",
     theme: {
       fontOrigin: "googleFonts",
       cdnCaching: true,

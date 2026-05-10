@@ -8,7 +8,7 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [
     Component.ConditionalRender({
       component: Component.RecentNotes({
-        title: "最近の更新記事",
+        title: "最新記事",
         limit: 5,
         showDate: true,
       }),
