@@ -10,7 +10,7 @@ export const sharedPageComponents: SharedLayout = {
       component: Component.RecentNotes({
         title: "最新記事",
         limit: 5,
-        showDate: true,
+        dateType: "created",
       }),
       condition: (page) => !!page.fileData.frontmatter?.enableRecent,
     }),

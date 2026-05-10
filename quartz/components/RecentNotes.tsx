@@ -3,7 +3,7 @@ import { FullSlug, SimpleSlug, resolveRelative } from "../util/path"
 import { QuartzPluginData } from "../plugins/vfile"
 import { byDateAndAlphabetical } from "./PageList"
 import style from "./styles/recentNotes.scss"
-import { Date, getDate } from "./Date"
+import { Date, getDate, ValidDateType } from "./Date"
 import { GlobalConfiguration } from "../cfg"
 import { i18n } from "../i18n"
 import { classNames } from "../util/lang"
@@ -15,6 +15,7 @@ interface Options {
   showTags: boolean
   filter: (f: QuartzPluginData) => boolean
   sort: (f1: QuartzPluginData, f2: QuartzPluginData) => number
+  dateType?: ValidDateType
 }
 
 const defaultOptions = (cfg: GlobalConfiguration): Options => ({
@@ -55,7 +56,10 @@ export default ((userOpts?: Partial<Options>) => {
                   </div>
                   {page.dates && (
                     <p class="meta">
-                      <Date date={getDate(cfg, page)!} locale={cfg.locale} />
+                      <Date
+                        date={page.dates[opts.dateType ?? cfg.defaultDateType]!}
+                        locale={cfg.locale}
+                      />
                     </p>
                   )}
                   {opts.showTags && (
