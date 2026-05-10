@@ -5,7 +5,16 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [],
+  afterBody: [
+    Component.ConditionalRender({
+      component: Component.RecentNotes({
+        title: "最近の更新記事",
+        limit: 5,
+        showDate: true,
+      }),
+      condition: (page) => !!page.fileData.frontmatter?.enableRecent,
+    }),
+  ],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/jackyzha0/quartz",
@@ -24,15 +33,6 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
-    // Only render the component if 'enableRecent' is present in the frontmatter
-    Component.ConditionalRender({
-      component: Component.RecentNotes({
-        title: "最近の更新記事",
-        limit: 5,
-        showDate: true,
-      }),
-      condition: (page) => !!page.fileData.frontmatter?.enableRecent,
-    }),
   ],
   left: [
     Component.PageTitle(),
@@ -47,6 +47,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Backlinks(),
   ],
 }
+
 // components for pages that display lists of pages  (e.g. tags or folders)
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
