@@ -87,14 +87,6 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
               allSlugs.push(...file.data.aliases)
             }
 
-            if (data.permalink != null && data.permalink.toString() !== "") {
-              data.permalink = data.permalink.toString() as FullSlug
-              const aliases = file.data.aliases ?? []
-              aliases.push(data.permalink)
-              file.data.aliases = aliases
-              allSlugs.push(data.permalink)
-            }
-
             const cssclasses = coerceToArray(coalesceAliases(data, ["cssclasses", "cssclass"]))
             if (cssclasses) data.cssclasses = cssclasses
 
@@ -129,11 +121,14 @@ export const FrontMatter: QuartzTransformerPlugin<Partial<Options>> = (userOpts)
             const slugValue = data.slug ?? data.permalink
             if (slugValue != null && slugValue.toString() !== "") {
               const newSlug = slugValue.toString() as FullSlug
-              const aliases = file.data.aliases ?? []
-              if (file.data.slug) aliases.push(file.data.slug)
-              file.data.aliases = aliases
-              file.data.slug = newSlug
-              allSlugs.push(newSlug)
+              const oldSlug = file.data.slug
+              if (oldSlug !== newSlug) {
+                const aliases = file.data.aliases ?? []
+                if (oldSlug) aliases.push(oldSlug)
+                file.data.aliases = [...new Set(aliases)]
+                file.data.slug = newSlug
+                allSlugs.push(newSlug)
+              }
             }
             file.data.frontmatter = data as QuartzPluginData["frontmatter"]
           }
